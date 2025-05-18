@@ -1,0 +1,21 @@
+name: Trigger ArchieBlog Build
+
+on:
+  push:
+    branches:
+      - main  # 如果你用的是 master，请改成 master
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger build on ArchieBlog
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            https://api.github.com/repos/eRain03/ArchieBlog/dispatches \
+            -d '{"event_type":"new-post"}'
+
